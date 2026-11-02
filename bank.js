@@ -43,3 +43,50 @@ deposit("Bilal", 300);
 withdraw("Ali", 400);
 withdraw("Lala", 100)
 showallaccounts();
+
+
+//Sir yha sa aj ka kam start hua sync and finding items
+
+const searchAccount = (searchName) => {
+    let found = bankaccounts.find((acc) => acc.name === searchName);
+    
+    if (found) {
+        const { name, balance, branch } = found;
+        console.log(`[.find & Destructuring] Found -> Name: ${name}, Balance: $${balance}, Branch: ${branch}`);
+    } else {
+        console.log("Account not found.");
+    }
+};
+
+const showVIPAccounts = () => {
+    let vipList = bankaccounts.filter((acc) => acc.balance > 1200);
+    console.log("\n[.filter] VIP Accounts (Balance > $1200):", vipList);
+};
+
+
+const getAccountHolderNames = () => {
+    let namesList = bankaccounts.map((acc) => acc.name);
+    console.log("\n[.map] All Account Holders:", namesList);
+};
+
+
+const fetchStatementFromServer = (userName) => {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            let acc = bankaccounts.find((a) => a.name === userName);
+            resolve(`✅ Server Response: ${acc.name} ka final verified balance $${acc.balance} hai.`);
+        }, 2000);
+    });
+};
+
+const checkServerStatement = async (userName) => {
+    console.log(`\n[async/await] ${userName} ka data server se mangwaya ja raha hai (2 sec wait)...`);
+    let response = await fetchStatementFromServer(userName);
+    console.log(response);
+};
+
+
+searchAccount("Ali");
+showVIPAccounts();
+getAccountHolderNames();
+checkServerStatement("Lala");
